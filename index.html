@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="css/application.css">
+</head>
+<body>
+<div class="container">
+	<div class="target">
+		<div class="progress-bar"></div>
+		<input type="button" id="Reset" value="Reset"/>
+	</div>	
+	</div>
+<script>
+$( document ).ready(function() {
+var timedur="";
+$.getJSON( "js/data.json", function( data ) {	
+		timedur=data.data.lightbox.duration;		//reading duration from data.json file
+	});
+	
+$('.progress-bar').animate(							//Progressbar animation
+    {width:'100%'}, 
+    {
+	  duration:timedur,
+        step: function(now, fx) {
+            var data= Math.round(now);
+            $(this).html(data + '%');
+            
+        }
+    }        
+);
+});
+$('#Reset').click(function () {
+
+	$('.progress-bar').css('visibility', 'hidden');  //reset button click
+	});
+			
+jQuery.fn.center = function(parent) {					//to keep the box in the centre of the screen 
+    if (parent) {
+        parent = this.parent();
+    } else {
+        parent = window;
+    }
+    this.css({
+        "position": "absolute",
+        "top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
+        "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
+    });
+	return this;
+}
+$("div.target:nth-child(1)").center(true);
+
+</script>
+</body>
+</html>
